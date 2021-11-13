@@ -3,17 +3,16 @@ import utime
 from meinePins import *
 from Bewegungsablauf import *
 
-V2 = 70
 
 ZeitR = [
+    1.000,
+    1.100,
+    1.600,
+    1.100,
+    2.000,
+    1.000,
     1.500,
-    0.500,
-    1.000,
-    0.500,
-    1.000,
-    0.500,
-    1.000,
-    0.500
+    1.000
     ]
 
 MotR  = [
@@ -27,7 +26,16 @@ MotR  = [
     MOT_B
     ]
 
-
+V2 = [
+    (-40,-40),
+    (-40,40),
+    (40,40),
+    (40,-40),
+    (40,40),
+    (40,-40),
+    (40,40),
+    (-40,40)
+    ]
 
 class Ablauf():
     def __init__(self,Mot,Time,V,abbruch = False):
@@ -37,7 +45,8 @@ class Ablauf():
         self.abbr = abbruch
     def run(self):
         for ix in range(len(self.Mot)):
-            OnFwd(self.Mot[ix],70)
+            OnFwd(MOT_A,self.V[ix][0])
+            OnFwd(MOT_B,self.V[ix][1])
             utime.sleep(self.Time[ix])
             #sensor_W.messen()
             #if self.abbr and sensor_w.wertL < 20
