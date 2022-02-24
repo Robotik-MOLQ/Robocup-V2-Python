@@ -1,5 +1,5 @@
 from machine import *
-from Motor import *
+from motor import *
 import utime
 
 lichtW = Pin(20,Pin.OUT)

@@ -29,7 +29,11 @@ ROT   = 1
 GRUEN = 2
 
 #Const
-V = 40
+LINKS = 0
+RECHTS = 1
+GRUENSCHWELLE = 20
+
+V = 50                          #40 = Standart
 DATEI="kalibrierWerte.csv"    
 #Display
 SCL = 5

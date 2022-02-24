@@ -8,7 +8,6 @@ from sensor_Licht import *
 import speicher
 #from datei import *
 from allSensors import *
-from gruen import *
 #------------------------------------------------------
 diff = 0
 
@@ -19,8 +18,8 @@ Off(MOT_AB)
 
 display.leereDisplay()
 display.schreibe("Init Complte!")
-display.schreibe("LINKS => Kalibrieren",2)
-display.schreibe("RECHTS => laden",3)
+display.schreibe("RECHTS => Kalibrieren",2)
+display.schreibe("LINKS => laden",3)
 
 waiting = True
 while waiting:
@@ -54,20 +53,12 @@ utime.sleep(0.5)
 #        print(s.name, s.wertL, s.wertR)
 
 display.leereDisplay()
-display.schreibe("Lutetium(g)")
-display.schreibe("Deine Mudda",2)
-display.schreibe("ich bin cool",3)
-utime.sleep(2)
-display.leereDisplay()
 display.schreibe("main")
 while True: # Linienfolger
+    Gruen = 0
     for s in sensoren: # messen der Lichtwerte 
         s.messen()
-#     if aufGruen(LINKS):
-#         print("GRUEeN")
-#     else:
-#         print("Im LINKS nix neues")
-#     print("Differenz:", sensor_G.wertL - sensor_R.wertL, "\t",sensor_G.wertL, sensor_R.wertL )
+    print("Gruen",sensor_G.wertL,"\tRot",sensor_R.wertL,"Gruen",sensor_G.wertR,"\tRot",sensor_R.wertR)
     gruenDiff = sensor_G.wertL - sensor_R.wertL
     print("")
     print(gruenDiff)
@@ -83,47 +74,36 @@ while True: # Linienfolger
 #         STR = str(s.wertl) + " " + str(s.wertR)
 #         display.schreibe(STR)
 #         display.oled.shift
-
-    GruenL = aufGruen(LINKS)
-    GruenR = aufGruen(RECHTS)
     if taster.getTotalValue()[2] > 0: # bei betätigung der Taster
         display.leereDisplay()
-        display.schreibe("Dooooohseh")
+        display.schreibe("Dooooose")
         dose.run()              # Dose umfahren
         Off()
         display.leereDisplay()
         display.schreibe("main")
     diff = sensor_W.wertL - sensor_W.wertR # Differenz bilden
     Adiff = sensor_A.wertL - sensor_A.wertR
-
+#     if sensor_G.wertL > sensor_R.wertL + 20:
+#         Off()
+#         display.leereDisplay()
+#         display.schreibe("Gruen: {}".format(Gruen))
+#         Gruen += 1
+#         uteime.sleep(0.5)
+#     else:
+#         Gruen = 0
+    #diffA = sensor_A.wertL - sensor_A.wertR
     diff = diff*2 # die Differenz mal 2, um den Bewegungsfaktor zu erhöhen
-    
-    if sensor_A.wertL - sensor_A.wertR > 50:
+    if sensor_A.wertL - sensor_A.wertR > 60:
         diff = 500
         OnFwd(MOT_A,   diff)
         OnFwd(MOT_B,  -diff)
-    elif sensor_A.wertR - sensor_A.wertL > 50:
+    elif sensor_A.wertR - sensor_A.wertL > 60:
         diff = -500
         OnFwd(MOT_A,   diff)
         OnFwd(MOT_B,  -diff)
     else:
         OnFwd(MOT_B,V - (diff + Adiff) /2) # Geschwindigkeit wird auf verschidene Werte gesetzt
         OnFwd(MOT_A,V + (diff + Adiff) /2)
-
-def intersectionHandler(linksGruen, rechtsGruen):
-    Off()
-    if linksGruen:
-        if rechtsGruen:
-            print("Wenn moeglich bitte wenden.")
-        else:
-            print("In 300 Metern bitte links abbiegen.")
-    elif rechtsGruen:
-        print("In 300 Metern bitte rechts abbiegen.")
-    else:
-        print("Dem Strassenverlauf bitte folgen.")
-        
-
-    
     
     
     
